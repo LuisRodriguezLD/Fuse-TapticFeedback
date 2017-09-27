@@ -1,0 +1,23 @@
+<App>
+	<JavaScript>
+	var Taptic = require("TapticModule");
+
+	function light(){
+		Taptic.Light();
+	}
+	function medium(){
+		Taptic.Medium();
+	}
+	function heavy(){
+		Taptic.Heavy();
+	}
+
+	module.exports = {light,medium,heavy};
+
+	</JavaScript>
+	<StackPanel Width="600" Alignment="Center" ItemSpacing="20" >
+		<Button Text="Light Feedback" Clicked="{light}" />
+		<Button Text="Medium Feedback" Clicked="{medium}" />
+		<Button Text="Heavy Feedback" Clicked="{heavy}" />
+	</StackPanel>
+</App>

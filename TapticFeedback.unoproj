@@ -1,0 +1,15 @@
+{
+	"RootNamespace":"",
+	"Packages": [
+		"Fuse",
+		"FuseJS"
+	],
+	"Includes": [
+		"*",
+		"Taptic/Taptic.swift:Swift:iOS"
+	],
+	"iOS": {
+		"SwiftVersion": 3.2,
+		"DeploymentTarget": "10.0"
+	}
+}

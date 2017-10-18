@@ -4,33 +4,35 @@ using Uno.UX;
 using Uno.Compiler.ExportTargetInterop;
 
 [UXGlobalModule]
-public class TapticModule : NativeModule
+public class FeedbackModule : NativeModule
 {
-	static readonly TapticModule _instance;
-	public TapticModule()
+	static readonly FeedbackModule _instance;
+	public FeedbackModule()
 	{
 		if (_instance != null) return;
-
 		_instance = this;
-		Resource.SetGlobalKey(_instance, "TapticModule");
-		AddMember(new NativeFunction("Light", (NativeCallback)Light));
-		AddMember(new NativeFunction("Medium", (NativeCallback)Medium));
-		AddMember(new NativeFunction("Heavy", (NativeCallback)Heavy));
+		Resource.SetGlobalKey(_instance, "FeedbackModule");
+		AddMember(new NativeFunction("Raise", (NativeCallback)Raise));
 	}
 
-	static object Light(Context c, object[] args)
+	static object Raise(Context c, object[] args)
 	{
-		StartForeign.Light();
-		return null;
-	}
-	static object Medium(Context c, object[] args)
-	{
-		StartForeign.Medium();
-		return null;
-	}
-	static object Heavy(Context c, object[] args)
-	{
-		StartForeign.Heavy();
+		foreach (var arg in args)
+            if (arg.Equals("Light")){
+				StartForeign.Light();
+			} else if (arg.Equals("Medium")){
+				StartForeign.Medium();
+			} else if (arg.Equals("Heavy")){
+				StartForeign.Heavy();
+			} else if (arg.Equals("Success")){
+				StartForeign.Success();
+			} else if (arg.Equals("Error")){
+				StartForeign.Error();
+			} else if (arg.Equals("Warning")){
+				StartForeign.Warning();
+			} else {
+				debug_log("Error. Something is wrong with the argument.");
+			}
 		return null;
 	}
 }
@@ -41,47 +43,86 @@ class StartForeign
 	// Simulator
 	public static extern(!mobile) void Light()
 	{
-		debug_log("Not Implemented for simulator");
+		debug_log("Light Feedback Received!");
 	}
 	public static extern(!mobile) void Medium()
 	{
-		debug_log("Not Implemented for simulator");
+		debug_log("Medium Feedback Received!");
 	}
 	public static extern(!mobile) void Heavy()
 	{
-		debug_log("Not Implemented for simulator");
+		debug_log("Heavy Feedback Received!");
+	}
+	public static extern(!mobile) void Success()
+	{
+		debug_log("Success Feedback Received!");
+	}
+	public static extern(!mobile) void Error()
+	{
+		debug_log("Error Feedback Received!");
+	}
+	public static extern(!mobile) void Success()
+	{
+		debug_log("Success Feedback Received!");
 	}
 
 	// Android
 	[Foreign(Language.Java)]
 	public static extern(Android) void Light()
 	@{
-		android.util.Log.d("Not Implemented for Android");
+		android.util.Log.d("Not (yet) Implemented for Android");
 	@}
 	public static extern(Android) void Medium()
 	@{
-		android.util.Log.d("Not Implemented for Android");
+		android.util.Log.d("Not (yet) Implemented for Android");
 	@}
 	public static extern(Android) void Heavy()
 	@{
-		android.util.Log.d("Not Implemented for Android");
+		android.util.Log.d("Not (yet) Implemented for Android");
+	@}
+	public static extern(Android) void Success()
+	@{
+		android.util.Log.d("Not (yet) Implemented for Android");
+	@}
+	public static extern(Android) void Error()
+	@{
+		android.util.Log.d("Not (yet) Implemented for Android");
+	@}
+	public static extern(Android) void Warning()
+	@{
+		android.util.Log.d("Not (yet) Implemented for Android");
 	@}
 
 	// iOS
 	[Foreign(Language.ObjC)]
 	public static extern(iOS) void Light()
 	@{
-		Taptic* x = [[Taptic alloc] init];
+		Impact* x = [[Impact alloc] init];
 		[x light];
 	@}
 	public static extern(iOS) void Medium()
 	@{
-		Taptic* x = [[Taptic alloc] init];
+		Impact* x = [[Impact alloc] init];
 		[x medium];
 	@}
 	public static extern(iOS) void Heavy()
 	@{
-		Taptic* x = [[Taptic alloc] init];
+		Impact* x = [[Impact alloc] init];
 		[x heavy];
+	@}
+	public static extern(iOS) void Success()
+	@{
+		Notification* x = [[Notification alloc] init];
+		[x success];
+	@}
+	public static extern(iOS) void Error()
+	@{
+		Notification* x = [[Notification alloc] init];
+		[x error];
+	@}
+	public static extern(iOS) void Warning()
+	@{
+		Notification* x = [[Notification alloc] init];
+		[x warning];
 	@}
 }

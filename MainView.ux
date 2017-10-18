@@ -1,23 +1,35 @@
 <App>
 	<JavaScript>
-	var Taptic = require("TapticModule");
+	var Feedback = require("FeedbackModule");
 
 	function light(){
-		Taptic.Light();
+		Feedback.Raise("Light");
 	}
 	function medium(){
-		Taptic.Medium();
+		Feedback.Raise("Medium");
 	}
 	function heavy(){
-		Taptic.Heavy();
+		Feedback.Raise("Heavy");
+	}
+	function success(){
+		Feedback.Raise("Success");
+	}
+	function error(){
+		Feedback.Raise("Error");
+	}
+	function warning(){
+		Feedback.Raise("Warning");
 	}
 
-	module.exports = {light,medium,heavy};
+	module.exports = {light,medium,heavy,success,error,warning};
 
 	</JavaScript>
-	<StackPanel Width="600" Alignment="Center" ItemSpacing="20" >
+	<StackPanel Width="600" Alignment="Center" ItemSpacing="30" >
 		<Button Text="Light Feedback" Clicked="{light}" />
 		<Button Text="Medium Feedback" Clicked="{medium}" />
 		<Button Text="Heavy Feedback" Clicked="{heavy}" />
+		<Button Text="Success Feedback" Clicked="{success}" />
+		<Button Text="Failure Feedback" Clicked="{error}" />
+		<Button Text="Warning Feedback" Clicked="{warning}" />
 	</StackPanel>
 </App>
